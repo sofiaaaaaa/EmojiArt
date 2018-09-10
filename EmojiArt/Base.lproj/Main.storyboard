@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="ipad9_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Emoji Art View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="EmojiArtViewController" customModule="EmojiArt" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fOP-lm-V3u">
+                                <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IE4-M5-oc0">
+                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="748"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z3m-FE-Pc8" customClass="EmojiArtView" customModule="EmojiArt" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="1024" height="748"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="z3m-FE-Pc8" secondAttribute="trailing" id="RoB-1X-VTv"/>
+                                            <constraint firstItem="z3m-FE-Pc8" firstAttribute="top" secondItem="IE4-M5-oc0" secondAttribute="top" id="iXN-gG-60f"/>
+                                            <constraint firstAttribute="bottom" secondItem="z3m-FE-Pc8" secondAttribute="bottom" id="kh9-Wc-ax7"/>
+                                            <constraint firstItem="z3m-FE-Pc8" firstAttribute="leading" secondItem="IE4-M5-oc0" secondAttribute="leading" id="yjP-CE-L4S"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="IE4-M5-oc0" secondAttribute="bottom" id="7R6-n3-obL"/>
+                                    <constraint firstItem="IE4-M5-oc0" firstAttribute="leading" secondItem="fOP-lm-V3u" secondAttribute="leading" id="AXg-MR-yRy"/>
+                                    <constraint firstItem="IE4-M5-oc0" firstAttribute="top" secondItem="fOP-lm-V3u" secondAttribute="top" id="IFs-tO-YXW"/>
+                                    <constraint firstAttribute="trailing" secondItem="IE4-M5-oc0" secondAttribute="trailing" id="Xdr-Lt-hWS"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="fOP-lm-V3u" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="God-y2-Wd6"/>
+                            <constraint firstItem="fOP-lm-V3u" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Ses-gM-nwX"/>
+                            <constraint firstItem="fOP-lm-V3u" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="mpr-1F-Bht"/>
+                            <constraint firstItem="fOP-lm-V3u" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="oCg-Gi-27y"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="dropZone" destination="IE4-M5-oc0" id="CIq-hU-fp2"/>
+                        <outlet property="emojiArtView" destination="z3m-FE-Pc8" id="5nN-WQ-bui"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="39.84375" y="38.28125"/>
+        </scene>
+    </scenes>
+</document>
