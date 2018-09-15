@@ -276,5 +276,91 @@ func collectionView(_ collectionView: UICollectionView,
 Use dequeueReusableSupplementaryView(ofKind: withReuseIdentifier: for:) in there.
 kind will be UICollectionElementKindSectionHeader or Footer.
 
+### Collection View Segue
 
+* Seguing from Collection View cells
+Probably best done from this UICollectionViewDelegate method ...
+
+```
+func collectionView(collectionView: UICV, didSelectItemAtIndexPath indexPath: IndexPath)
+```
+
+Use performSegue(withIdentifier: ) from there.
+This strategy could also be used for UITableView.
+
+* What if your Model changes?
+
+func reloadData()
+
+Causes it to call numberOfSectionsInTableView and numberOfRows/ItemsInSection all over again and then cellForRow/ItemAt an each visible row or item Relatively heavyweight, but if your entire data structure changes, that's what you need 
+If only part of your Model changes,there are lighter-weight reloaders,for example...
+
+func reloadRows(at indexPaths: [indexPath], with animation: UITableViewRowAnimation)
+
+... among others and of course similar methods for Collection View. 
+
+* Controlling the height of rows in a Table View
+
+Row height can be fixed (UITableView's var rowHeight:CGFloat)
+Or it can be determined using autolayout (rowHeight = UITableViewAutomaticDimension)
+If you do automatic, help the table view out by setting estimatedRowHeight to something
+The UITableView's delegate can also control row heights..
+
+func tableView(UITableView {estimated}heightForRowAt indexPath: IndexPath) -> CGFloat
+
+Beware: the non-estimated version of this could get called A LOT if you have a big table
+
+* Controlling the size of cells in a Collection View
+Cell size can be fixed in the storyboard.
+You can also drive it from autolayout similar to table view.
+Or you can return the size from this delegate method ...
+
+func collectionView(_ collectionView: UICollectionView, 
+                                layout collectionViewlayout: UIColle ctionViewLayout,
+                                sizeForItemAt indexPath: IndexPath
+) -> CGSize
+
+### Table View Headers
+
+* Setting a header for each section
+If you have a multiple-section table view, you can set a header (or footer) for each.
+There are methods to set this to be a custom UIView.
+But usually we just supply a String for the header using this method ...
+
+func tableView(_ tv:UITV, titleForHeaderInection section: Int) -> Stirng?
+
+### Collection View Headers
+
+* Headers and footers are a bit more difficult in Collection View
+You can't just specify them as Strings.
+First you have to "turn them on" int the storyboard.
+The are reusable (like cells are), so you have to make a UICollectionReusableView subclass.
+You put your UILabel or whatever for your header, then hook up an outlet.
+Then you implement this dataSource method to dequeue and provide a header.
+
+func collectionView(_ collectionView: UICollectionView, 
+                                viewForSupplementaryElementOfKind kind: String, 
+                                at indexPath: IndexPath
+                        ) -> UICollectionReusableView
+
+Use dequeueReusableSupplementaryView(ofKind: withReuseIdentifier:for:) in there.
+kind will be UICollectionElementKindSectionHeader or Footer.
+
+### Other Methods
+
+* There are dozens of other methods in these classes
+
+Controlling the look (separator style and color, default row height, etc.).
+Getting cell information (cell for index path, index path for cell, visible cells, etc.).
+Scrolling to a row (UITableView/UICollectionView are subclasses of UIScrollView).
+Selection management (allows multiple selection, getting the selected row, etc.).
+Moving, inserting and deleting rows, etc.
+As always, part of learning the material in this course is studying the documentation.
+
+* FoodForThought
+
+Example code doing most of what has been described will be posted to the class website.
+
+It's in an app called FoodForThought.
+You'll see all these things in action.
 
