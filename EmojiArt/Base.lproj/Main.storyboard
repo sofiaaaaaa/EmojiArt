@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -90,6 +91,53 @@
                                             <constraint firstItem="hRU-mF-98v" firstAttribute="centerX" secondItem="N4k-GH-aC7" secondAttribute="centerX" id="Eft-sX-MNW"/>
                                             <constraint firstItem="hRU-mF-98v" firstAttribute="centerY" secondItem="N4k-GH-aC7" secondAttribute="centerY" id="mbj-hB-uyg"/>
                                         </constraints>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AddEmojiButtonCell" id="nXK-AS-MBH">
+                                        <rect key="frame" x="180" y="0.0" width="80" height="80"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9pn-lf-syA">
+                                                    <rect key="frame" x="25" y="4.5" width="30" height="71"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="50"/>
+                                                    <state key="normal" title="+"/>
+                                                    <connections>
+                                                        <action selector="addEmoji" destination="BYZ-38-t0r" eventType="touchUpInside" id="APw-1W-3St"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="9pn-lf-syA" firstAttribute="centerX" secondItem="nXK-AS-MBH" secondAttribute="centerX" id="G8F-zf-tNc"/>
+                                            <constraint firstItem="9pn-lf-syA" firstAttribute="centerY" secondItem="nXK-AS-MBH" secondAttribute="centerY" id="bNP-I1-sX6"/>
+                                        </constraints>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EmojiInputCell" id="Jre-D0-Fn6" customClass="TextFieldCollectionViewCell" customModule="EmojiArt" customModuleProvider="target">
+                                        <rect key="frame" x="270" y="0.0" width="80" height="80"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="okl-OY-VKB">
+                                                    <rect key="frame" x="8" y="8.5" width="64" height="63"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="50"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="okl-OY-VKB" firstAttribute="centerX" secondItem="Jre-D0-Fn6" secondAttribute="centerX" id="89C-bO-Ztm"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="okl-OY-VKB" secondAttribute="trailing" id="KfT-6X-yPc"/>
+                                            <constraint firstItem="okl-OY-VKB" firstAttribute="centerY" secondItem="Jre-D0-Fn6" secondAttribute="centerY" id="j7B-NI-APc"/>
+                                            <constraint firstItem="okl-OY-VKB" firstAttribute="leading" secondItem="Jre-D0-Fn6" secondAttribute="leadingMargin" id="yz4-BZ-GnS"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="textField" destination="okl-OY-VKB" id="Bco-WY-Sad"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
