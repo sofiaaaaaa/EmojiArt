@@ -811,3 +811,89 @@ For the best UI, you could give your user the choice of which version to use.
 Or, if your document's contents are "mergeable", you could do that. 
 documentState can be "observed" using the UIDocumentStateChanged notification (more later).
 
+
+
+## UIDocumentBrowserViewController
+
+* Managing user documents
+
+You probably want users to be able to easily manage their documents in a document-based app.
+Choosing files to open, renaming files, moving them, accessing iCloud drive, etc.
+The UIDocumentBrowserViewController(UIDBVC) does all of this for you. 
+Using UIDocument to store your document makes leveraging this UIDBVC easy. 
+
+* Using the UIDocumentBrowserViewController
+It has to be the root view controller in your storyboard (i.e. the arrow points to it)
+Your document-editing MVC will then be presented modally on top of (i.e. takes over the screen).
+
+* What document types can you open?
+
+To use the UIDBVC,you have to register which types your application uses.
+You do this in the Project Settings in the Info tab with your Target selected.
+In the Document Types area, add the types you support. 
+Here's what it looks like to support JSON files ....
+
+The Types field is the UTI of the type you want to support (e.g. public.json, public.image).
+The CFBundleTypeRole and LSHandlerRank say how you handle this kind of document.
+Are you the primary editor and owner of this type or is it just something you can open?
+
+* Declaring your own document type
+
+You might have a custom document type that your application edits
+You can add this under Exported UTIs in the same place in Project Settings
+Here's an example of adding an "emojiart" type of document....
+
+* Xcode template
+
+Document Based App
+
+Setting up a UIDocumentBrowserViewController-based application requires a bit of setup Mostly an entry in your Info.plist, a little bit of AppDelegate code and some stubbed-out code 
+We don't usually use an Xcode template in this course, but in this case it make sense.
+
+* What is in the template?
+A stub for Document Types in Project Settings (supports public.image file types)
+An Info.plist entry Supports Document Browser = YES
+A bit of code in AppDelegate to allow other apps (like Files) to get your app to open a file
+A stubbed out UIDocument subclass (with empty contents and load (fromContents) methods)
+A stubbed out MVC to display a document (just calls UIDocument's open and close methods)
+A subclass of UIDcoumentBrowserViewController (with almost everything implemented)
+
+* What you need to do to personalize this template ...
+
+1. Use your UIDocument subclass instead of the stubbed out one
+2. Use your document-viewing MVC code (already using UIDocument) instead of stub
+3. Add code to UIDBVC subclass to ....
+    a. configure the UIDBVC (allow multiple selection? creation of new documents? etc.)
+    b.specify the url of a template document to copy to create new documents
+    c. present your document-viewing MVC modally given the url of a document
+4. Update the document Types in Project Settings to be your types (instead of public.image)
+
+## UIDocumentBrowserViewController
+
+* Step 1 and 2
+    As long as you properly implement UIDocument in your MVC,this is no extra work
+
+* Step 3a : Configuring the UIDBVC
+
+    This happens in its viewDidLoad ...
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        delegate = self
+        allowsDocumentCreation = true
+        allowsPickingMultipleItems = true
+        browserUserInterfaceStyle = .dark
+        view.tintColor = .white
+    }
+    
+    Set these as you wish. 
+    
+* Step 3b: Specifying the "new document" template URL
+This happens in this UIDBVC delegate method ...
+
+* Aside: Presenting an MVC without segueing 
+We haven't covered how to present MVCs in any other way except segueing. 
+
+        
+}
+
+

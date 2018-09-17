@@ -42,13 +42,14 @@ class EmojiArtView: UIView, UIDropInteractionDelegate {
         session.loadObjects(ofClass: NSAttributedString.self) { providers in
             let dropPoint = session.location(in: self)
             for attributedString in providers as? [NSAttributedString] ?? [] {
-                self.addLabel(with: attributedString, centerdAt: dropPoint)
+                self.addLabel(with: attributedString, centeredAt: dropPoint)
                 self.delegate?.emojiArtViewDidChange(self)
             }
         }
     }
     
-    private func addLabel(with attributedString: NSAttributedString, centerdAt point: CGPoint) {
+    
+    func addLabel(with attributedString: NSAttributedString, centeredAt point: CGPoint) {
         let label = UILabel()
         label.backgroundColor = .clear
         label.attributedText = attributedString

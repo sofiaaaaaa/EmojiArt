@@ -12,7 +12,6 @@ class TextFieldCollectionViewCell: UICollectionViewCell, UITextFieldDelegate {
     
     @IBOutlet weak var textField: UITextField! {
         didSet {
-            print("aaaaaaaaa")
             textField.delegate = self
         }
     }

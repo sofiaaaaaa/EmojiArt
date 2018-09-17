@@ -8,19 +8,49 @@
 
 import UIKit
 
+
 class EmojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScrollViewDelegate,UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate , UICollectionViewDropDelegate {
+    
+    // MARK: - Model
+    
+    var emojiArt: EmojiArt? {
+        get {
+            if let url = emojiArtBackgroundImage.url {
+                //let emojis = emojiArtView.subviews.flatMap{ $0 as? UILabel }.compactMap{ EmojiArt.EmojiInfo(label: $0)}
+                let emojis = emojiArtView.subviews.flatMap { $0 as? UILabel }.flatMap { EmojiArt.EmojiInfo(label: $0) }
+                print("EmojiArt get() ===> \(emojis)")
+                return EmojiArt(url: url, emojis: emojis)
+            }
+            return nil
+        }
+        set {
+            emojiArtBackgroundImage = (nil, nil)
+             emojiArtView.subviews.flatMap { $0 as? UILabel }.forEach { $0.removeFromSuperview() }
+            if let url = newValue?.url {
+                imageFetcher = ImageFetcher(fetch: url) { (url, image) in
+                    DispatchQueue.main.async {
+                        self.emojiArtBackgroundImage = (url, image)
+                        newValue?.emojis.forEach {
+                            let attributedText = $0.text.attributedString(withTextStyle: .body, ofSize: CGFloat($0.size))
+                            self.emojiArtView.addLabel(with: attributedText, centeredAt: CGPoint(x: $0.x, y: $0.y))
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+    
     
     private var addingEmoji = false
     
     @IBAction func addEmoji() {
-        print("====================")
-         print("====================")
-         print("emoji Add.. ")
         addingEmoji = true
         emojiCollectionView.reloadSections(IndexSet(integer:0))
     }
     
-    // MARK : - UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
@@ -30,6 +60,21 @@ class EmojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
             case 0: return 1
             case 1: return emojis.count
             default: return 0
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let url = try? FileManager.default.url(
+                for: .documentDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: true
+            ).appendingPathComponent("Untiltled.json") {
+                if let jsonData = try? Data(contentsOf: url) {
+                    emojiArt = EmojiArt(json: jsonData)
+                }
         }
     }
     
@@ -64,14 +109,17 @@ class EmojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         return emojiArtView
     }
     
-    var  emojiArtBackgroundImage: UIImage? {
+    private var _emojiArtBackgroundImageURL: URL?
+    
+    var  emojiArtBackgroundImage: (url: URL?, image: UIImage?) {
         get {
-            return emojiArtView.backgoundImage
+            return (_emojiArtBackgroundImageURL, emojiArtView.backgoundImage)
         }
         set {
+            _emojiArtBackgroundImageURL = newValue.url
             scrollView?.zoomScale = 1.0
-            emojiArtView.backgoundImage = newValue
-            let size = newValue?.size ?? CGSize.zero
+            emojiArtView.backgoundImage = newValue.image
+            let size = newValue.image?.size ?? CGSize.zero
             emojiArtView.frame = CGRect(origin: CGPoint.zero, size: size)
             scrollView?.contentSize = size
             scrollViewHeight?.constant = size.height
@@ -93,6 +141,8 @@ class EmojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
             emojiCollectionView.delegate = self
             emojiCollectionView.dragDelegate = self
             emojiCollectionView.dropDelegate = self
+            
+            emojiCollectionView.dragInteractionEnabled = true
         }
     }
     
@@ -120,10 +170,11 @@ class EmojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
                     self?.emojiCollectionView.reloadData()
                 }
             }
-            
+            print("addingEmoji \(cell)")
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddEmojiButtonCell", for: indexPath)
+             print("else... \(cell)")
             return cell
         }
     }
@@ -232,12 +283,29 @@ class EmojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     }
     
     
+    @IBAction func save(_ sender: UIBarButtonItem) {
+        if let json = emojiArt?.json {
+            if let url = try? FileManager.default.url (
+                for: .documentDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: true
+                ).appendingPathComponent("Untitled.json"){
+                    do {
+                        try json.write(to: url)
+                        print("saved successfully!")
+                    } catch let error {
+                        print("couldn't save \(error)")
+                    }
+            }
+        }
+    }
     
     //performDrop
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         imageFetcher = ImageFetcher() { (url, image) in
             DispatchQueue.main.async {
-                self.emojiArtBackgroundImage = image
+                self.emojiArtBackgroundImage = (url, image)
             }
         }
         
@@ -255,4 +323,19 @@ class EmojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     }
     
     
+}
+
+
+extension EmojiArt.EmojiInfo
+{
+    init?(label: UILabel) {
+        if let attributedText = label.attributedText, let font = attributedText.font {
+            x = Int(label.center.x)
+            y = Int(label.center.y)
+            text = attributedText.string
+            size = Int(font.pointSize)
+        } else {
+            return nil
+        }
+    }
 }
